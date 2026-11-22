@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CampusConnect — Your College Hub</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>"/>
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ── TOP BAR ── -->
+  <header class="topbar">
+    <div class="logo">
+      <div class="logo-icon">🎓</div>
+      <span>CampusConnect</span>
+    </div>
+    <div class="topbar-center">
+      <div class="search-bar" style="position:relative;">
+        <span aria-hidden="true">🔍</span>
+        <input type="text" id="global-search" title="Search CampusConnect" placeholder="Search students, events, notes…" aria-label="Search students, events, notes"/>
+        <div id="search-results-dropdown" style="display:none;position:absolute;top:110%;left:0;right:0;background:var(--surface2);border:1px solid var(--border);border-radius:12px;z-index:999;max-height:340px;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,0.4);padding:8px 0;"></div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <button class="notif-btn" title="Notifications" aria-label="Notifications" onclick="navigate('notifications')">
+        🔔
+        <span class="notif-dot" aria-hidden="true"></span>
+      </button>
+      <div class="avatar" title="My Profile" role="button" aria-label="My Profile" tabindex="0" onclick="navigate('profile')">AK</div>
+    </div>
+  </header>
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar" aria-label="Main navigation">
+    <div class="nav-section-label">Main</div>
+    <a class="nav-item active" data-page="home" role="button" aria-label="Home Feed">
+      <span class="nav-icon" aria-hidden="true">🏠</span> Home Feed
+    </a>
+    <a class="nav-item" data-page="academics" role="button" aria-label="Academics">
+      <span class="nav-icon" aria-hidden="true">📚</span> Academics
+    </a>
+    <a class="nav-item" data-page="timetable" role="button" aria-label="Timetable">
+      <span class="nav-icon" aria-hidden="true">🗓️</span> Timetable
+    </a>
+
+    <div class="nav-section-label">Connect</div>
+    <a class="nav-item" data-page="events" role="button" aria-label="Events">
+      <span class="nav-icon" aria-hidden="true">🎉</span> Events
+      <span class="badge green" aria-label="3 new events">3</span>
+    </a>
+    <a class="nav-item" data-page="groups" role="button" aria-label="Study Groups">
+      <span class="nav-icon" aria-hidden="true">👥</span> Study Groups
+    </a>
+    <a class="nav-item" data-page="chat" role="button" aria-label="Messages">
+      <span class="nav-icon" aria-hidden="true">💬</span> Messages
+      <span class="badge" aria-label="4 unread messages">4</span>
+    </a>
+
+    <div class="nav-section-label">Campus</div>
+    <a class="nav-item" data-page="marketplace" role="button" aria-label="Marketplace">
+      <span class="nav-icon" aria-hidden="true">🛍️</span> Marketplace
+    </a>
+    <a class="nav-item" data-page="lost-found" role="button" aria-label="Lost and Found">
+      <span class="nav-icon" aria-hidden="true">🔎</span> Lost &amp; Found
+    </a>
+    <a class="nav-item" data-page="clubs" role="button" aria-label="Clubs">
+      <span class="nav-icon" aria-hidden="true">⭐</span> Clubs
+    </a>
+
+    <div class="nav-section-label">You</div>
+    <a class="nav-item" data-page="studytimer" role="button" aria-label="Study Timer">
+      <span class="nav-icon" aria-hidden="true">⏱️</span> Study Timer
+      <span class="badge green" aria-label="New feature">New</span>
+    </a>
+    <a class="nav-item" data-page="ai-assistant" role="button" aria-label="AI Study Assistant">
+      <span class="nav-icon" aria-hidden="true">🤖</span>
+      <span>AI Assistant</span>
+    </a>
+    <a class="nav-item" data-page="notifications" role="button" aria-label="Notifications">
+      <span class="nav-icon" aria-hidden="true">🔔</span> Notifications
+      <span class="badge" aria-label="7 unread notifications">7</span>
+    </a>
+    <a class="nav-item" data-page="profile" role="button" aria-label="My Profile">
+      <span class="nav-icon" aria-hidden="true">👤</span> My Profile
+    </a>
+    <a class="nav-item" id="nav-timer-btn" role="button" aria-label="Study Timer" onclick="toggleStudyTimer()">
+      <span class="nav-icon" aria-hidden="true">⏱️</span> Study Timer
+      <span class="badge timer-badge-nav hidden" id="nav-timer-badge">0:00</span>
+    </a>
+  </aside>
+
+  <!-- ── MAIN CONTENT ── -->
+  <main class="main">
+
+    <!-- ════════════════════ HOME FEED ════════════════════ -->
+    <section id="page-home" class="page">
+      <div class="home-layout">
+        <!-- Feed Column -->
+        <div>
+          <div class="page-header">
+            <div class="page-title">Good morning, Arjun! 👋</div>
+            <div class="page-subtitle">Here's what's happening on campus today</div>
+          </div>
+
+          <!-- Quick Stats -->
+          <div class="grid-4 mb-24">
+            <div class="stat-card blue">
+              <div class="stat-label">Attendance</div>
+              <div class="stat-value stat-value-blue">84%</div>
+              <div class="stat-change">↑ 2% this week</div>
+            </div>
+            <div class="stat-card orange">
+              <div class="stat-label">Assignments</div>
+              <div class="stat-value stat-value-orange">3</div>
+              <div class="stat-change" style="color:var(--accent4)">Due this week</div>
+            </div>
+            <div class="stat-card green">
+              <div class="stat-label">CGPA</div>
+              <div class="stat-value stat-value-green">8.4</div>
+              <div class="stat-change">↑ 0.2 last sem</div>
+            </div>
+            <div class="stat-card purple">
+              <div class="stat-label">Events</div>
+              <div class="stat-value stat-value-purple">5</div>
+              <div class="stat-change">This month</div>
+            </div>
+          </div>
+
+          <!-- New Post Button -->
+          <div class="card post-prompt mb-24" data-open-modal="modal-post">
+            <div class="avatar" aria-hidden="true">AK</div>
+            <div class="post-prompt-input" aria-hidden="true">Share something with your campus…</div>
+            <button class="btn btn-primary btn-sm" data-open-modal="modal-post">Post</button>
+          </div>
+
+          <!-- Feed Posts -->
+          <div id="feed-posts">
+            <div class="post">
+              <div class="post-header">
+                <div class="post-avatar post-avatar-rahul" aria-hidden="true">RK</div>
+                <div class="post-meta">
+                  <div class="post-author">Rahul Kumar <span class="tag tag-xs" style="margin-left:6px">CSE 3rd Year</span></div>
+                  <div class="post-time">2 hours ago · <span style="color:var(--text-muted)">Public</span></div>
+                </div>
+              </div>
+              <div class="post-body">
+                Anyone else struggling with the DSA assignment due tomorrow? Specifically the graph traversal problems. Let's form a last-minute study group in the library tonight — Room G12, 7 PM 📚
+              </div>
+              <div class="flex-gap-10 flex-wrap mb-16">
+                <span class="tag">DSA</span>
+                <span class="tag orange">Study Group</span>
+                <span class="tag green">Tonight</span>
+              </div>
+              <div class="post-actions">
+                <button class="post-action" data-action="like" aria-label="Like post">❤️ <span class="like-count">24</span> Like</button>
+                <button class="post-action" aria-label="Comment on post">💬 12 Comment</button>
+                <button class="post-action" aria-label="Share post">🔗 Share</button>
+              </div>
+            </div>
+
+            <div class="post">
+              <div class="post-header">
+                <div class="post-avatar post-avatar-priya" aria-hidden="true">PS</div>
+                <div class="post-meta">
+                  <div class="post-author">Priya Sharma <span class="tag purple tag-xs" style="margin-left:6px">ECE 2nd Year</span></div>
+                  <div class="post-time">4 hours ago</div>
+                </div>
+              </div>
+              <div class="post-body">
+                🚨 Lost my black JBL earphones near the canteen. They have my initials "PS" engraved on the case. If you found them please contact me ASAP! Will be extremely grateful 🙏
+              </div>
+              <div class="post-actions">
+                <button class="post-action" data-action="like" aria-label="Like post">❤️ <span class="like-count">8</span> Like</button>
+                <button class="post-action" aria-label="Comment on post">💬 5 Comment</button>
+                <button class="post-action" aria-label="Share post">🔗 Share</button>
+              </div>
+            </div>
+
+            <div class="post">
+              <div class="post-header">
+                <div class="post-avatar" style="background:linear-gradient(135deg,#9f7aea,#f687b3)" aria-hidden="true">SC</div>
+                <div class="post-meta">
+                  <div class="post-author">Student Council <span class="tag green tag-xs" style="margin-left:6px">Official</span></div>
+                  <div class="post-time">Yesterday</div>
+                </div>
+              </div>
+              <div class="post-body">
+                🎉 <strong>Annual Tech Fest "Innovate 2025"</strong> registration is now open! Participate in 12+ events including Hackathon, Robotics, Paper Presentation, and more. Early bird registrations close on Nov 20th. Register at the link in bio!
+              </div>
+              <div class="flex-gap-10 flex-wrap mb-16">
+                <span class="tag purple">TechFest</span>
+                <span class="tag">Hackathon</span>
+                <span class="tag orange">Register Now</span>
+              </div>
+              <div class="post-actions">
+                <button class="post-action" data-action="like" aria-label="Like post">❤️ <span class="like-count">142</span> Like</button>
+                <button class="post-action" aria-label="Comment on post">💬 38 Comment</button>
+                <button class="post-action" aria-label="Share post">🔗 Share</button>
+              </div>
+            </div>
+
+            <div class="post">
+              <div class="post-header">
+                <div class="post-avatar" style="background:linear-gradient(135deg,#63b3ed,#68d391)" aria-hidden="true">AM</div>
+                <div class="post-meta">
+                  <div class="post-author">Aditya Mehta <span class="tag tag-xs" style="margin-left:6px">MECH 4th Year</span></div>
+                  <div class="post-time">2 days ago</div>
+                </div>
+              </div>
+              <div class="post-body">
+                Selling my Engineering Drawing instruments set + 2nd year Thermodynamics books in great condition. Price negotiable. Useful for 1st and 2nd year Mech students! DM me 📐
+              </div>
+              <div class="post-actions">
+                <button class="post-action" data-action="like" aria-label="Like post">❤️ <span class="like-count">11</span> Like</button>
+                <button class="post-action" aria-label="Comment on post">💬 7 Comment</button>
+                <button class="post-action" aria-label="Share post">🔗 Share</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Sidebar -->
+        <div class="home-sidebar-col">
+          <!-- Today's Classes -->
+          <div class="card">
+            <div class="card-title">Today's Classes 📅</div>
+            <div class="class-list">
+              <div class="class-item">
+                <div class="class-item-icon" aria-hidden="true">💻</div>
+                <div>
+                  <div class="class-item-name">Data Structures</div>
+                  <div class="class-item-time">9:00 AM · Room 201</div>
+                </div>
+                <span class="tag green tag-xs ml-auto">Done</span>
+              </div>
+              <div class="class-item class-item-next">
+                <div class="class-item-icon" aria-hidden="true">🔬</div>
+                <div>
+                  <div class="class-item-name">Digital Electronics</div>
+                  <div class="class-item-time">11:00 AM · Lab 4</div>
+                </div>
+                <span class="tag tag-xs ml-auto">Next</span>
+              </div>
+              <div class="class-item">
+                <div class="class-item-icon" aria-hidden="true">📊</div>
+                <div>
+                  <div class="class-item-name">Probability &amp; Stats</div>
+                  <div class="class-item-time">2:00 PM · Room 105</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Trending -->
+          <div class="card">
+            <div class="card-title">Trending on Campus 🔥</div>
+            <div class="trending-item"><div class="trending-rank">1</div><div class="trending-text"><div class="trending-name">#Innovate2025</div><div class="trending-count">342 posts</div></div></div>
+            <div class="trending-item"><div class="trending-rank">2</div><div class="trending-text"><div class="trending-name">#DSADoubt</div><div class="trending-count">89 posts</div></div></div>
+            <div class="trending-item"><div class="trending-rank">3</div><div class="trending-text"><div class="trending-name">#CanteenNewMenu</div><div class="trending-count">67 posts</div></div></div>
+            <div class="trending-item"><div class="trending-rank">4</div><div class="trending-text"><div class="trending-name">#PlacementSeason</div><div class="trending-count">211 posts</div></div></div>
+            <div class="trending-item trending-last"><div class="trending-rank">5</div><div class="trending-text"><div class="trending-name">#LibraryBooksales</div><div class="trending-count">44 posts</div></div></div>
+          </div>
+
+          <!-- Upcoming Deadlines -->
+          <div class="card">
+            <div class="card-title">Deadlines ⏰</div>
+            <div class="deadline-list">
+              <div class="deadline-item">
+                <div class="deadline-dot deadline-dot-red" aria-hidden="true"></div>
+                <div>
+                  <div class="deadline-name">DSA Assignment 3</div>
+                  <div class="deadline-due deadline-due-red">Tomorrow, 11:59 PM</div>
+                </div>
+              </div>
+              <div class="deadline-item">
+                <div class="deadline-dot deadline-dot-orange" aria-hidden="true"></div>
+                <div>
+                  <div class="deadline-name">DE Lab Report</div>
+                  <div class="deadline-due deadline-due-orange">Nov 19, 5:00 PM</div>
+                </div>
+              </div>
+              <div class="deadline-item">
+                <div class="deadline-dot deadline-dot-green" aria-hidden="true"></div>
+                <div>
+                  <div class="deadline-name">Maths Quiz</div>
+                  <div class="deadline-due deadline-due-green">Nov 22, In-class</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════ ACADEMICS ════════════════════ -->
+    <section id="page-academics" class="page">
+      <div class="page-header">
+        <div class="page-title">Academics 📚</div>
+        <div class="page-subtitle">Track your academic performance and resources</div>
+      </div>
+
+      <div class="academics-chart-grid mb-24">
+        <div class="card academics-chart-card">
+          <div class="card-title">Weekly Attendance</div>
+          <canvas id="attendance-chart" width="500" height="160" aria-label="Weekly attendance bar chart"></canvas>
+        </div>
+        <div class="card academics-donut-card">
+          <canvas id="cgpa-donut" width="160" height="160" aria-label="CGPA donut chart showing 8.4 out of 10"></canvas>
+          <div class="academics-donut-meta">
+            <div class="text-muted-sm">Current Semester: 5th</div>
+            <div class="text-accent3-sm" style="margin-top:4px">↑ Improved from 8.2</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-24">
+        <div class="card-title">Subject-wise Performance</div>
+        <div class="subject-list">
+          <div>
+            <div class="subject-row">
+              <span class="subject-name">Data Structures &amp; Algorithms</span>
+              <span class="subject-score" style="color:var(--accent)">88%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" data-width="88%" style="width:0%;background:linear-gradient(90deg,#63b3ed,#9f7aea)"></div></div>
+          </div>
+          <div>
+            <div class="subject-row">
+              <span class="subject-name">Digital Electronics</span>
+              <span class="subject-score" style="color:var(--accent2)">74%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" data-width="74%" style="width:0%;background:linear-gradient(90deg,#f6ad55,#fc8181)"></div></div>
+          </div>
+          <div>
+            <div class="subject-row">
+              <span class="subject-name">Probability &amp; Statistics</span>
+              <span class="subject-score" style="color:var(--accent3)">92%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" data-width="92%" style="width:0%;background:linear-gradient(90deg,#68d391,#63b3ed)"></div></div>
+          </div>
+          <div>
+            <div class="subject-row">
+              <span class="subject-name">Operating Systems</span>
+              <span class="subject-score" style="color:var(--purple)">81%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" data-width="81%" style="width:0%;background:linear-gradient(90deg,#9f7aea,#f687b3)"></div></div>
+          </div>
+          <div>
+            <div class="subject-row">
+              <span class="subject-name">Computer Networks</span>
+              <span class="subject-score" style="color:var(--pink)">69%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" data-width="69%" style="width:0%;background:linear-gradient(90deg,#f687b3,#fc8181)"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header-row mb-16">
+          <div class="card-title-inline">Assignments</div>
+          <button class="btn btn-secondary btn-sm" data-open-modal="modal-add-assignment" aria-label="Add new assignment">+ Add</button>
+        </div>
+        <div class="assignment-list" id="assignment-list">
+          <div class="assignment-item" style="border-left:3px solid var(--accent4)">
+            <span class="assignment-icon" aria-hidden="true">📝</span>
+            <div class="assignment-body">
+              <div class="assignment-name">DSA Assignment 3 – Graph Traversal</div>
+              <div class="assignment-due">Due: Tomorrow, 11:59 PM</div>
+            </div>
+            <span class="tag red">Pending</span>
+            <button class="btn btn-ghost btn-sm" onclick="editAssignment(this)" aria-label="Edit assignment" style="margin-left:4px;padding:4px 8px;font-size:12px;">✏️</button>
+          </div>
+          <div class="assignment-item" style="border-left:3px solid var(--accent2)">
+            <span class="assignment-icon" aria-hidden="true">🔬</span>
+            <div class="assignment-body">
+              <div class="assignment-name">DE Lab Report – Multiplexers</div>
+              <div class="assignment-due">Due: Nov 19, 5:00 PM</div>
+            </div>
+            <span class="tag orange">In Progress</span>
+            <button class="btn btn-ghost btn-sm" onclick="editAssignment(this)" aria-label="Edit assignment" style="margin-left:4px;padding:4px 8px;font-size:12px;">✏️</button>
+          </div>
+          <div class="assignment-item" style="border-left:3px solid var(--accent3)">
+            <span class="assignment-icon" aria-hidden="true">📊</span>
+            <div class="assignment-body">
+              <div class="assignment-name">Statistics Assignment 2 – Hypothesis Testing</div>
+              <div class="assignment-due">Submitted on Nov 10</div>
+            </div>
+            <span class="tag green">Submitted</span>
+            <button class="btn btn-ghost btn-sm" onclick="editAssignment(this)" aria-label="Edit assignment" style="margin-left:4px;padding:4px 8px;font-size:12px;">✏️</button>
+          </div>
+          <div class="assignment-item" style="border-left:3px solid var(--accent3)">
+            <span class="assignment-icon" aria-hidden="true">🖥️</span>
+            <div class="assignment-body">
+              <div class="assignment-name">OS Mini Project – Shell Simulation</div>
+              <div class="assignment-due">Grade: A · 48/50</div>
+            </div>
+            <span class="tag green">Graded</span>
+            <button class="btn btn-ghost btn-sm" onclick="editAssignment(this)" aria-label="Edit assignment" style="margin-left:4px;padding:4px 8px;font-size:12px;">✏️</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════ TIMETABLE ════════════════════ -->
+    <section id="page-timetable" class="page">
+      <div class="page-header">
+        <div class="page-header-row">
+          <div>
+            <div class="page-title">My Timetable 🗓️</div>
+            <div class="page-subtitle">Semester 5 — November 2025</div>
+          </div>
+          <button class="btn btn-secondary btn-sm" id="timetable-edit-btn" onclick="toggleTimetableEdit()">✏️ Edit Timetable</button>
+        </div>
+      </div>
+      <div class="card" style="overflow-x:auto">
+        <div class="timetable-edit-banner" id="timetable-edit-banner">
+          ✏️ <strong>Edit Mode:</strong> Click any class cell to edit it. Click "Done" when finished.
+          <button class="btn btn-primary btn-sm" onclick="toggleTimetableEdit()" style="margin-left:auto;">✓ Done</button>
+        </div>
+        <table class="timetable" aria-label="Weekly class timetable">
+          <thead>
+            <tr>
+              <th scope="col">Time</th>
+              <th scope="col">Monday</th>
+              <th scope="col">Tuesday</th>
+              <th scope="col">Wednesday</th>
+              <th scope="col">Thursday</th>
+              <th scope="col">Friday</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="time-cell">9:00–10:00</td>
+              <td><div class="class-cell class-blue">Data Structures<br><small>Room 201</small></div></td>
+              <td><div class="class-cell class-orange">Digital Electronics<br><small>Room 105</small></div></td>
+              <td><div class="class-cell class-blue">Data Structures<br><small>Room 201</small></div></td>
+              <td><div class="class-cell class-green">Prob &amp; Stats<br><small>Room 308</small></div></td>
+              <td><div class="class-cell class-purple">OS<br><small>Room 102</small></div></td>
+            </tr>
+            <tr>
+              <td class="time-cell">10:00–11:00</td>
+              <td><div class="class-cell class-green">Prob &amp; Stats<br><small>Room 308</small></div></td>
+              <td><div class="class-cell class-blue">Data Structures<br><small>Room 201</small></div></td>
+              <td><div class="class-cell class-purple">OS<br><small>Room 102</small></div></td>
+              <td><div class="class-cell class-orange">Digital Electronics<br><small>Room 105</small></div></td>
+              <td><div class="class-cell class-blue">Data Structures<br><small>Room 201</small></div></td>
+            </tr>
+            <tr>
+              <td class="time-cell">11:00–12:00</td>
+              <td class="empty-cell">—</td>
+              <td><div class="class-cell class-pink">CN<br><small>Room 204</small></div></td>
+              <td><div class="class-cell class-orange">DE Lab<br><small>Lab 4</small></div></td>
+              <td><div class="class-cell class-purple">OS<br><small>Room 102</small></div></td>
+              <td class="empty-cell">—</td>
+            </tr>
+            <tr>
+              <td class="time-cell">12:00–1:00</td>
+              <td colspan="5" class="lunch-cell">🍱 Lunch Break</td>
+            </tr>
+            <tr>
+              <td class="time-cell">2:00–3:00</td>
+              <td><div class="class-cell class-purple">OS<br><small>Room 102</small></div></td>
+              <td class="empty-cell">—</td>
+              <td><div class="class-cell class-green">Prob &amp; Stats<br><small>Room 308</small></div></td>
+              <td><div class="class-cell class-pink">CN Lab<br><small>Lab 2</small></div></td>
+              <td><div class="class-cell class-green">Prob &amp; Stats<br><small>Room 308</small></div></td>
+            </tr>
+            <tr>
+              <td class="time-cell">3:00–4:00</td>
+              <td><div class="class-cell class-pink">CN<br><small>Room 204</small></div></td>
+              <td><div class="class-cell class-green">Prob &amp; Stats<br><small>Room 308</small></div></td>
+              <td class="empty-cell">—</td>
+              <td><div class="class-cell class-pink">CN Lab<br><small>Lab 2</small></div></td>
+              <td><div class="class-cell class-orange">Digital Electronics<br><small>Room 105</small></div></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="timetable-legend">
+          <span class="tag">💙 Data Structures</span>
+          <span class="tag orange">🟠 Digital Electronics</span>
+          <span class="tag green">🟢 Prob &amp; Stats</span>
+          <span class="tag purple">🟣 Operating Systems</span>
+          <span class="tag pink">🩷 Computer Networks</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════ EVENTS ════════════════════ -->
+    <section id="page-events" class="page">
+      <div class="page-header">
+        <div class="page-header-row">
+          <div>
+            <div class="page-title">Campus Events 🎉</div>
+            <div class="page-subtitle">Upcoming events, workshops, and fests</div>
+          </div>
+          <button class="btn btn-primary" data-open-modal="modal-event">+ Create Event</button>
+        </div>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Event categories">
+        <button class="tab active" role="tab" data-tab="all" aria-selected="true">All Events</button>
+        <button class="tab" role="tab" data-tab="tech" aria-selected="false">Tech</button>
+        <button class="tab" role="tab" data-tab="cultural" aria-selected="false">Cultural</button>
+        <button class="tab" role="tab" data-tab="sports" aria-selected="false">Sports</button>
+      </div>
+
+      <div class="grid-3" id="events-grid">
+        <div class="event-card">
+          <div class="event-banner banner-blue" aria-hidden="true">🚀</div>
+          <div class="event-body">
+            <div class="flex-gap-10 mb-16"><span class="tag">Tech</span><span class="tag purple">Hackathon</span></div>
+            <div class="event-title">Code Storm 2025</div>
+            <div class="event-meta">
+              <span>📅 Nov 22–23, 2025</span>
+              <span>📍 Main Auditorium</span>
+              <span>👥 Teams of 2–4</span>
+            </div>
+          </div>
+          <div class="event-footer">
+            <div class="avatar-stack" aria-label="50 people attending">
+              <div class="av" style="background:linear-gradient(135deg,#63b3ed,#9f7aea)" aria-hidden="true">R</div>
+              <div class="av" style="background:linear-gradient(135deg,#f6ad55,#fc8181)" aria-hidden="true">P</div>
+              <div class="av" style="background:linear-gradient(135deg,#68d391,#63b3ed)" aria-hidden="true">A</div>
+              <div class="av av-more" aria-hidden="true">+47</div>
+            </div>
+            <button class="btn btn-primary btn-sm" data-rsvp aria-label="RSVP for Code Storm 2025">RSVP</button>
+          </div>
+        </div>
+
+        <div class="event-card">
+          <div class="event-banner banner-orange" aria-hidden="true">🎭</div>
+          <div class="event-body">
+            <div class="flex-gap-10 mb-16"><span class="tag orange">Cultural</span></div>
+            <div class="event-title">Annual Cultural Night</div>
+            <div class="event-meta">
+              <span>📅 Nov 25, 2025</span>
+              <span>📍 Open Air Theatre</span>
+              <span>🎟️ Free Entry</span>
+            </div>
+          </div>
+          <div class="event-footer">
+            <div class="avatar-stack" aria-label="122 people attending">
+              <div class="av" style="background:linear-gradient(135deg,#f687b3,#9f7aea)" aria-hidden="true">S</div>
+              <div class="av" style="background:linear-gradient(135deg,#68d391,#63b3ed)" aria-hidden="true">M</div>
+              <div class="av av-more" aria-hidden="true">+120</div>
+            </div>
+            <button class="btn btn-primary btn-sm" data-rsvp aria-label="RSVP for Annual Cultural Night">RSVP</button>
+          </div>
+        </div>
+
+        <div class="event-card">
+          <div class="event-banner banner-green" aria-hidden="true">🧠</div>
+          <div class="event-body">
+            <div class="flex-gap-10 mb-16"><span class="tag">Tech</span><span class="tag green">Workshop</span></div>
+            <div class="event-title">ML &amp; AI Workshop</div>
+            <div class="event-meta">
+              <span>📅 Nov 20, 10 AM</span>
+              <span>📍 Seminar Hall 2</span>
+              <span>🎯 30 Seats</span>
+            </div>
+          </div>
+          <div class="event-footer">
+            <div class="avatar-stack">
+              <div class="av" style="background:linear-gradient(135deg,#68d391,#9f7aea)" aria-hidden="true">N</div>
+              <div class="av av-more" aria-hidden="true">+22</div>
+            </div>
+            <button class="btn btn-primary btn-sm" data-rsvp aria-label="RSVP for ML and AI Workshop">RSVP</button>
+          </div>
+        </div>
+
+        <div class="event-card">
+          <div class="event-banner banner-purple" aria-hidden="true">⚽</div>
+          <div class="event-body">
+            <div class="flex-gap-10 mb-16"><span class="tag red">Sports</span></div>
+            <div class="event-title">Inter-Dept Football Cup</div>
+            <div class="event-meta">
+              <span>📅 Nov 28 – Dec 2</span>
+              <span>📍 Football Ground</span>
+              <span>🏆 Prize: ₹10,000</span>
+            </div>
+          </div>
+          <div class="event-footer">
+            <div class="avatar-stack">
+              <div class="av" style="background:linear-gradient(135deg,#fc8181,#f6ad55)" aria-hidden="true">K</div>
+              <div class="av av-more" aria-hidden="true">+64</div>
+            </div>
+            <button class="btn btn-primary btn-sm" data-rsvp aria-label="RSVP for Inter-Dept Football Cup">RSVP</button>
+          </div>
+        </div>
+
+        <div class="event-card">
+          <div class="event-banner" style="background:linear-gradient(135deg,rgba(159,122,234,0.15),rgba(246,135,179,0.15))" aria-hidden="true">🎤</div>
+          <div class="event-body">
+            <div class="flex-gap-10 mb-16"><span class="tag purple">Career</span></div>
+            <div class="event-title">Industry Talk: Google Engineers</div>
+            <div class="event-meta">
+              <span>📅 Nov 21, 3 PM</span>
+              <span>📍 CS Seminar Hall</span>
+              <span>💼 Placement Focus</span>
+            </div>
+          </div>
+          <div class="event-footer">
+            <div class="avatar-stack">
+              <div class="av" style="background:linear-gradient(135deg,#9f7aea,#f687b3)" aria-hidden="true">V</div>
+              <div class="av av-more" aria-hidden="true">+88</div>
+            </div>
+            <button class="btn btn-primary btn-sm" data-rsvp aria-label="RSVP for Industry Talk">RSVP</button>
+          </div>
+        </div>
+
+        <div class="event-card">
+          <div class="event-banner" style="background:linear-gradient(135deg,rgba(99,179,237,0.15),rgba(104,211,145,0.15))" aria-hidden="true">🎨</div>
+          <div class="event-body">
+            <div class="flex-gap-10 mb-16"><span class="tag orange">Cultural</span><span class="tag green">Art</span></div>
+            <div class="event-title">Campus Art Exhibition</div>
+            <div class="event-meta">
+              <span>📅 Dec 5–6, 2025</span>
+              <span>📍 Gallery Hall</span>
+              <span>🎨 Open Submission</span>
+            </div>
+          </div>
+          <div class="event-footer">
+            <div class="avatar-stack">
+              <div class="av" style="background:linear-gradient(135deg,#63b3ed,#68d391)" aria-hidden="true">L</div>
+              <div class="av av-more" aria-hidden="true">+15</div>
+            </div>
+            <button class="btn btn-primary btn-sm" data-rsvp aria-label="RSVP for Campus Art Exhibition">RSVP</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════ STUDY GROUPS ════════════════════ -->
+    <section id="page-groups" class="page">
+      <div class="page-header">
+        <div class="page-header-row">
+          <div>
+            <div class="page-title">Study Groups 👥</div>
+            <div class="page-subtitle">Collaborate with your classmates</div>
+          </div>
+          <button class="btn btn-primary" data-open-modal="modal-group">+ Create Group</button>
+        </div>
+      </div>
+
+      <div class="mb-24">
+        <div class="section-title mb-16">My Groups</div>
+        <div class="grid-3" id="groups-grid">
+          <div class="group-card" style="border-color:rgba(99,179,237,0.3)">
+            <div class="group-card-header">
+              <div class="group-icon" aria-hidden="true">💻</div>
+              <span class="tag green">Active Now</span>
+            </div>
+            <div class="group-name">DSA Doubt Busters</div>
+            <div class="group-desc">Daily practice sessions for Data Structures &amp; Algorithms. LeetCode &amp; HackerRank problems discussed.</div>
+            <div class="group-footer">
+              <div class="group-member-count">👥 12 members</div>
+              <button class="btn btn-ghost btn-sm" aria-label="Open DSA Doubt Busters group">Open →</button>
+            </div>
+          </div>
+          <div class="group-card" style="border-color:rgba(246,173,85,0.3)">
+            <div class="group-card-header">
+              <div class="group-icon" aria-hidden="true">📊</div>
+              <span class="tag orange">3 new msgs</span>
+            </div>
+            <div class="group-name">Stats Study Circle</div>
+            <div class="group-desc">Probability theory, statistical inference, and maths olympiad prep for 5th sem students.</div>
+            <div class="group-footer">
+              <div class="group-member-count">👥 8 members</div>
+              <button class="btn btn-ghost btn-sm" aria-label="Open Stats Study Circle group">Open →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-title mb-16">Discover Groups</div>
+        <div class="grid-3">
+          <div class="group-card">
+            <div class="group-icon" aria-hidden="true">🔬</div>
+            <div class="group-name">Digital Electronics Lab</div>
+            <div class="group-desc">Share lab notes, troubleshoot circuits, prepare for practicals together.</div>
+            <div class="group-footer"><div class="group-member-count">👥 19 members</div><button class="btn btn-secondary btn-sm" data-join aria-label="Join Digital Electronics Lab">Join</button></div>
+          </div>
+          <div class="group-card">
+            <div class="group-icon" aria-hidden="true">🌐</div>
+            <div class="group-name">Computer Networks</div>
+            <div class="group-desc">Networking concepts, TCP/IP protocols, and CN assignment help.</div>
+            <div class="group-footer"><div class="group-member-count">👥 15 members</div><button class="btn btn-secondary btn-sm" data-join aria-label="Join Computer Networks group">Join</button></div>
+          </div>
+          <div class="group-card">
+            <div class="group-icon" aria-hidden="true">🏆</div>
+            <div class="group-name">Competitive Programming</div>
+            <div class="group-desc">Codeforces, CodeChef, and ICPC prep. Weekly contests &amp; discussions.</div>
+            <div class="group-footer"><div class="group-member-count">👥 34 members</div><button class="btn btn-secondary btn-sm" data-join aria-label="Join Competitive Programming group">Join</button></div>
+          </div>
+          <div class="group-card">
+            <div class="group-icon" aria-hidden="true">🤖</div>
+            <div class="group-name">AI/ML Enthusiasts</div>
+            <div class="group-desc">Machine Learning reading group. Papers, projects, Kaggle competitions.</div>
+            <div class="group-footer"><div class="group-member-count">👥 28 members</div><button class="btn btn-secondary btn-sm" data-join aria-label="Join AI/ML Enthusiasts group">Join</button></div>
+          </div>
+          <div class="group-card">
+            <div class="group-icon" aria-hidden="true">📱</div>
+            <div class="group-name">App Dev Club</div>
+            <div class="group-desc">Build mobile and web apps together. Flutter, React, and Android projects.</div>
+            <div class="group-footer"><div class="group-member-count">👥 22 members</div><button class="btn btn-secondary btn-sm" data-join aria-label="Join App Dev Club">Join</button></div>
+          </div>
+          <div class="group-card">
+            <div class="group-icon" aria-hidden="true">📖</div>
+            <div class="group-name">GATE Aspirants</div>
+            <div class="group-desc">GATE 2026 prep: previous papers, resources, mock tests, and strategy.</div>
+            <div class="group-footer"><div class="group-member-count">👥 41 members</div><button class="btn btn-secondary btn-sm" data-join aria-label="Join GATE Aspirants group">Join</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════ MESSAGES ════════════════════ -->
+    <section id="page-chat" class="page">
+      <div class="page-header">
+        <div class="page-title">Messages 💬</div>
+        <div class="page-subtitle">Chat with your friends and classmates</div>
+      </div>
+      <div class="chat-layout">
+        <div class="chat-sidebar">
+          <div class="chat-sidebar-header">
+            <div class="search-bar">
+              <span aria-hidden="true">🔍</span>
+              <input type="text" id="chat-search" title="Search chats" placeholder="Search chats…" aria-label="Search chats"/>
+            </div>
+          </div>
+          <div class="chat-list" role="listbox" aria-label="Conversations">
+            <div class="chat-item" id="ai-chat-item" role="option" aria-selected="false" data-contact="ai">
+              <div class="chat-av" style="background:linear-gradient(135deg,#9f7aea,#63b3ed)" aria-hidden="true">AI</div>
+              <div class="chat-info">
+                <div class="chat-item-row"><div class="chat-name">🤖 Study Assistant</div><div class="chat-time">AI</div></div>
+                <div class="chat-preview">Ask me anything about your studies!</div>
+              </div>
+            </div>
+            <div class="chat-item active" id="rk-chat-item" role="option" aria-selected="true" data-contact="rk">
+              <div class="chat-av chat-av-rk" aria-hidden="true">RK</div>
+              <div class="chat-info">
+                <div class="chat-item-row"><div class="chat-name">Rahul Kumar</div><div class="chat-time">2m ago</div></div>
+                <div class="chat-preview">Can you send the notes?</div>
+              </div>
+            </div>
+            <div class="chat-item" role="option" aria-selected="false" data-contact="ps">
+              <div class="chat-av chat-av-ps" aria-hidden="true">PS</div>
+              <div class="chat-info">
+                <div class="chat-item-row"><div class="chat-name">Priya Sharma</div><div class="chat-time">1h ago</div></div>
+                <div class="chat-preview">Thanks for the help!</div>
+              </div>
+            </div>
+            <div class="chat-item" role="option" aria-selected="false">
+              <div class="chat-av chat-av-ds" aria-hidden="true">DSA</div>
+              <div class="chat-info">
+                <div class="chat-item-row"><div class="chat-name">DSA Doubt Busters</div><div class="chat-time">3h ago</div></div>
+                <div class="chat-preview">Meet at library tonight</div>
+              </div>
+            </div>
+            <div class="chat-item" role="option" aria-selected="false">
+              <div class="chat-av chat-av-me" aria-hidden="true">AM</div>
+              <div class="chat-info">
+                <div class="chat-item-row"><div class="chat-name">Aditya Mehta</div><div class="chat-time">Yesterday</div></div>
+                <div class="chat-preview">Books still available?</div>
+              </div>
+            </div>
+            <div class="chat-item" role="option" aria-selected="false">
+              <div class="chat-av" style="background:linear-gradient(135deg,#fc8181,#f6ad55)" aria-hidden="true">KC</div>
+              <div class="chat-info">
+                <div class="chat-item-row"><div class="chat-name">Kavya Chandra</div><div class="chat-time">2d ago</div></div>
+                <div class="chat-preview">Okay see you tomorrow!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="chat-main">
+          <div class="chat-header">
+            <div class="chat-av chat-av-rk" style="width:36px;height:36px" aria-hidden="true">RK</div>
+            <div>
+              <div class="chat-contact-name">Rahul Kumar</div>
+              <div class="chat-online-status"><span class="online" aria-hidden="true"></span> Online</div>
+            </div>
+            <div class="chat-header-actions">
+              <button class="btn btn-secondary btn-sm" title="Voice call" aria-label="Voice call Rahul Kumar">📞</button>
+              <button class="btn btn-secondary btn-sm" title="Video call" aria-label="Video call Rahul Kumar">📹</button>
+            </div>
+          </div>
+          <div class="chat-messages" id="chat-messages" aria-live="polite" aria-label="Chat messages">
+            <div class="msg theirs">
+              <div class="msg-av msg-av-rk" aria-hidden="true">RK</div>
+              <div class="msg-bubble">Hey! Did you finish the DSA assignment?</div>
+              <span class="msg-time">10:24 AM</span>
+            </div>
+            <div class="msg mine">
+              <span class="msg-time">10:26 AM</span>
+              <div class="msg-bubble">Not yet 😅 The graph traversal part is tricky</div>
+              <div class="msg-av msg-av-you" aria-hidden="true">AK</div>
+            </div>
+            <div class="msg theirs">
+              <div class="msg-av msg-av-rk" aria-hidden="true">RK</div>
+              <div class="msg-bubble">Same here! I'm forming a study group tonight in the library. You in?</div>
+              <span class="msg-time">10:27 AM</span>
+            </div>
+            <div class="msg mine">
+              <span class="msg-time">10:28 AM</span>
+              <div class="msg-bubble">Yes definitely! What time?</div>
+              <div class="msg-av msg-av-you" aria-hidden="true">AK</div>
+            </div>
+            <div class="msg theirs">
+              <div class="msg-av msg-av-rk" aria-hidden="true">RK</div>
+              <div class="msg-bubble">7 PM, Room G12. Can you send me the DS notes from Prof. Verma's class?</div>
+              <span class="msg-time">10:29 AM</span>
+            </div>
+          </div>
+          <div class="chat-input-area">
+            <input class="chat-input" id="chat-input" type="text" title="Type a message" placeholder="Type a message…" aria-label="Type a message"/>
+            <button class="btn btn-primary btn-icon" id="chat-send" title="Send message" aria-label="Send message">➤</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════ MARKETPLACE ════════════════════ -->
+    <section id="page-marketplace" class="page">
+      <div class="page-header">
+        <div class="page-header-row">
+          <div>
+            <div class="page-title">Student Marketplace 🛍️</div>
+            <div class="page-subtitle">Buy and sell with fellow students</div>
+          </div>
+          <button class="btn btn-primary" data-open-modal="modal-sell">+ Sell Item</button>
+        </div>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Item categories">
+        <button class="tab active" role="tab" data-tab="all" aria-selected="true">All</button>
+        <button class="tab" role="tab" data-tab="books" aria-selected="false">📚 Books</button>
+        <button class="tab" role="tab" data-tab="electronics" aria-selected="false">💻 Electronics</button>
+        <button class="tab" role="tab" data-tab="other" aria-selected="false">🎒 Other</button>
+      </div>
+
+      <div class="grid-4">
+        <div class="item-card">
+          <div class="item-img" aria-hidden="true">📚</div>
+          <div class="item-body">
+            <div class="item-name">Sedgewick's Algorithms (4th Ed.)</div>
+            <div class="item-price">₹ 350</div>
+            <div class="item-seller">Sold by Aditya M. · CSE 4th Yr</div>
+            <div class="flex-gap-10 mb-item"><span class="tag green tag-xs">Like New</span></div>
+            <button class="btn btn-primary btn-sm btn-full" data-contact aria-label="Contact seller for Sedgewick's Algorithms">Contact Seller</button>
+          </div>
+        </div>
+        <div class="item-card">
+          <div class="item-img" aria-hidden="true">🎧</div>
+          <div class="item-body">
+            <div class="item-name">Sony WH-1000XM4 Headphones</div>
+            <div class="item-price">₹ 8,500</div>
+            <div class="item-seller">Sold by Neha R. · ECE 3rd Yr</div>
+            <div class="flex-gap-10 mb-item"><span class="tag orange tag-xs">Good</span></div>
+            <button class="btn btn-primary btn-sm btn-full" data-contact aria-label="Contact seller for Sony headphones">Contact Seller</button>
+          </div>
+        </div>
+        <div class="item-card">
+          <div class="item-img" aria-hidden="true">📐</div>
+          <div class="item-body">
+            <div class="item-name">Engineering Drawing Set (Staedtler)</div>
+            <div class="item-price">₹ 200</div>
+            <div class="item-seller">Sold by Vivek K. · MECH 4th Yr</div>
+            <div class="flex-gap-10 mb-item"><span class="tag green tag-xs">Like New</span></div>
+            <button class="btn btn-primary btn-sm btn-full" data-contact aria-label="Contact seller for Drawing Set">Contact Seller</button>
+          </div>
+        </div>
+        <div class="item-card">
+          <div class="item-img" aria-hidden="true">💻</div>
+          <div class="item-body">
+            <div class="item-name">Dell Inspiron Laptop i5 8GB RAM</div>
+            <div class="item-price">₹ 22,000</div>
+            <div class="item-seller">Sold by Lakshmi S. · IT 4th Yr</div>
+            <div class="flex-gap-10 mb-item"><span class="tag orange tag-xs">Good</span></div>
+            <button class="btn btn-primary btn-sm btn-full" data-contact aria-label="Contact seller for Dell laptop">Contact Seller</button>
+          </div>
+        </div>
+        <div class="item-card">
+          <div class="item-img" aria-hidden="true">📓</div>
+          <div class="item-body">
+            <div class="item-name">5th Sem Notes Bundle – CSE</div>
+            <div class="item-price">₹ 80</div>
+            <div class="item-seller">Sold by Rohit P. · CSE 6th Yr</div>
+            <div class="flex-gap-10 mb-item"><span class="tag green tag-xs">Like New</span></div>
+            <button class="btn btn-primary btn-sm btn-full" data-contact aria-label="Contact seller for CSE notes bundle">Contact Seller</button>
+          </div>
+        </div>
+        <div class="item-card">
+          <div class="item-img" aria-hidden="true">🎒</div>
+          <div class="item-body">
+            <div class="item-name">Wildcraft Backpack 35L</div>
+            <div class="item-price">₹ 650</div>
+            <div class="item-seller">Sold by Sneha T. · MBA 1st Yr</div>
+            <div class="flex-gap-10 mb-item"><span class="tag tag-xs">Fair</span></div>
+            <button class="btn btn-primary btn-sm btn-full" data-contact aria-label="Contact seller for Wildcraft backpack">Contact Seller</button>
+          </div>
+        </div>
+        <div class="item-card">
+          <div class="item-img" aria-hidden="true">📷</div>
+          <div class="item-body">
+            <div class="item-name">Canon EOS 200D Camera + Lens</div>
+            <div class="item-price">₹ 28,000</div>
+            <div class="item-seller">Sold by Kiran M. · Arts 3rd Yr</div>
+            <div class="flex-gap-10 mb-item"><span class="tag orange tag-xs">Good</span></div>
+            <button class="btn btn-primary btn-sm btn-full" data-contact aria-label="Contact seller for Canon camera">Contact Seller</button>
+          </div>
+        </div>
+        <div class="item-card">
+          <div class="item-img" aria-hidden="true">🔭</div>
+          <div class="item-body">
+            <div class="item-name">Physics Lab Instruments Set</div>
+            <div class="item-price">₹ 400</div>
+            <div class="item-seller">Sold by Asha G. · Physics 2nd Yr</div>
+            <div class="flex-gap-10 mb-item"><span class="tag green tag-xs">Like New</span></div>
+            <button class="btn btn-primary btn-sm btn-full" data-contact aria-label="Contact seller for Physics instruments">Contact Seller</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════ LOST & FOUND ════════════════════ -->
+    <section id="page-lost-found" class="page">
+      <div class="page-header">
+        <div class="page-header-row">
+          <div>
+            <div class="page-title">Lost &amp; Found 🔎</div>
+            <div class="page-subtitle">Help your fellow students find their belongings</div>
+          </div>
+          <button class="btn btn-primary" data-open-modal="modal-lf">+ Report Item</button>
+        </div>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Lost and Found categories">
+        <button class="tab active" role="tab" data-tab="lost" aria-selected="true">Lost Items</button>
+        <button class="tab" role="tab" data-tab="found" aria-selected="false">Found Items</button>
+      </div>
+
+      <div class="lf-list">
+        <div class="lf-card">
+          <div class="lf-icon" aria-hidden="true">🎧</div>
+          <div class="lf-body">
+            <div class="lf-title">JBL Earphones – Black with initials "PS"</div>
+            <div class="lf-desc">Lost near the main canteen, last seen on Nov 14th afternoon. The case has "PS" engraved on it.</div>
+            <div class="lf-meta">
+              <span class="tag red">Lost</span>
+              <span class="lf-meta-text">📍 Near Canteen</span>
+              <span class="lf-meta-text">By Priya S.</span>
+              <span class="lf-meta-text">Nov 14</span>
+            </div>
+          </div>
+          <div><button class="btn btn-primary btn-sm btn-nowrap" data-contact aria-label="Contact about JBL earphones">Contact</button></div>
+        </div>
+
+        <div class="lf-card">
+          <div class="lf-icon" aria-hidden="true">📔</div>
+          <div class="lf-body">
+            <div class="lf-title">Blue Notebook – "OS Notes Sem 5"</div>
+            <div class="lf-desc">Left in Seminar Hall 2 after the OS class. Has my name "Arjun K." on the cover.</div>
+            <div class="lf-meta">
+              <span class="tag red">Lost</span>
+              <span class="lf-meta-text">📍 Seminar Hall 2</span>
+              <span class="lf-meta-text">By Arjun K.</span>
+              <span class="lf-meta-text">Nov 15</span>
+            </div>
+          </div>
+          <div><button class="btn btn-primary btn-sm btn-nowrap" data-contact aria-label="Contact about blue OS notebook">Contact</button></div>
+        </div>
+
+        <div class="lf-card">
+          <div class="lf-icon" aria-hidden="true">🔑</div>
+          <div class="lf-body">
+            <div class="lf-title">Keys with a small red keychain</div>
+            <div class="lf-desc">Found in Library Reading Room on Nov 15th. Handing over to the security desk. Contact to claim.</div>
+            <div class="lf-meta">
+              <span class="tag green">Found</span>
+              <span class="lf-meta-text">📍 Library</span>
+              <span class="lf-meta-text">By Rahul M.</span>
+              <span class="lf-meta-text">Nov 15</span>
+            </div>
+          </div>
+          <div><button class="btn btn-primary btn-sm btn-nowrap" data-found aria-label="Mark keys as found">Mark Found</button></div>
+        </div>
+
+        <div class="lf-card">
+          <div class="lf-icon" aria-hidden="true">💳</div>
+          <div class="lf-body">
+            <div class="lf-title">Student ID Card – "Meera Pillai" ECE</div>
+            <div class="lf-desc">Found near the ECE department entrance. Photo on card. Handover to student affairs office.</div>
+            <div class="lf-meta">
+              <span class="tag green">Found</span>
+              <span class="lf-meta-text">📍 ECE Dept</span>
+              <span class="lf-meta-text">By Karthik J.</span>
+              <span class="lf-meta-text">Nov 13</span>
+            </div>
+          </div>
+          <div><button class="btn btn-primary btn-sm btn-nowrap" data-contact aria-label="Contact about student ID card">Contact</button></div>
+        </div>
+
+        <div class="lf-card">
+          <div class="lf-icon" aria-hidden="true">🎒</div>
+          <div class="lf-body">
+            <div class="lf-title">Black Backpack – Found in Canteen</div>
+            <div class="lf-desc">Left unattended in canteen near Gate 2. Has some books and a water bottle inside. Kept at admin office.</div>
+            <div class="lf-meta">
+              <span class="tag green">Found</span>
+              <span class="lf-meta-text">📍 Canteen</span>
+              <span class="lf-meta-text">By Divya R.</span>
+              <span class="lf-meta-text">Nov 12</span>
+            </div>
+          </div>
+          <div><button class="btn btn-primary btn-sm btn-nowrap" data-found aria-label="Mark black backpack as found">Mark Found</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════ CLUBS ════════════════════ -->
+    <section id="page-clubs" class="page">
+      <div class="page-header">
+        <div class="page-title">Campus Clubs ⭐</div>
+        <div class="page-subtitle">Find your tribe and pursue your passions</div>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="club-icon" aria-hidden="true">💡</div>
+          <div class="club-name">IEEE Student Chapter</div>
+          <div class="club-desc">Technical workshops, paper presentations, and national-level competitions in engineering domains.</div>
+          <div class="flex-gap-10 flex-wrap mb-16"><span class="tag">Tech</span><span class="tag purple">150+ members</span></div>
+          <button class="btn btn-secondary btn-sm" data-join aria-label="Join IEEE Student Chapter">Join Club</button>
+        </div>
+        <div class="card">
+          <div class="club-icon" aria-hidden="true">🎭</div>
+          <div class="club-name">Drama &amp; Theatre Club</div>
+          <div class="club-desc">Annual play, street theatre, improv sessions. Open to all branches and years. Express yourself!</div>
+          <div class="flex-gap-10 flex-wrap mb-16"><span class="tag orange">Cultural</span><span class="tag purple">80+ members</span></div>
+          <button class="btn btn-secondary btn-sm" data-join aria-label="Join Drama and Theatre Club">Join Club</button>
+        </div>
+        <div class="card">
+          <div class="club-icon" aria-hidden="true">📸</div>
+          <div class="club-name">Photography Club</div>
+          <div class="club-desc">Campus photo walks, exhibitions, and competitions. Learn from peers and professional mentors.</div>
+          <div class="flex-gap-10 flex-wrap mb-16"><span class="tag green">Arts</span><span class="tag purple">60+ members</span></div>
+          <button class="btn btn-secondary btn-sm" data-join aria-label="Join Photography Club">Join Club</button>
+        </div>
+        <div class="card">
+          <div class="club-icon" aria-hidden="true">🌱</div>
+          <div class="club-name">Entrepreneurship Cell</div>
+          <div class="club-desc">E-cell hosts startup competitions, mentorship sessions, and connects students with investors.</div>
+          <div class="flex-gap-10 flex-wrap mb-16"><span class="tag">Business</span><span class="tag purple">200+ members</span></div>
+          <button class="btn btn-secondary btn-sm" data-join aria-label="Join Entrepreneurship Cell">Join Club</button>
+        </div>
+        <div class="card">
+          <div class="club-icon" aria-hidden="true">🎵</div>
+          <div class="club-name">Music Club</div>
+          <div class="club-desc">Jam sessions, concerts, and annual band competition. All instruments welcome, all genres included.</div>
+          <div class="flex-gap-10 flex-wrap mb-16"><span class="tag orange">Cultural</span><span class="tag purple">90+ members</span></div>
+          <button class="btn btn-secondary btn-sm" data-join aria-label="Join Music Club">Join Club</button>
+        </div>
+        <div class="card">
+          <div class="club-icon" aria-hidden="true">⚽</div>
+          <div class="club-name">Sports Committee</div>
+          <div class="club-desc">Annual sports week, inter-college tournaments in cricket, football, basketball, and more.</div>
+          <div class="flex-gap-10 flex-wrap mb-16"><span class="tag red">Sports</span><span class="tag purple">300+ members</span></div>
+          <button class="btn btn-secondary btn-sm" data-join aria-label="Join Sports Committee">Join Club</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════ NOTIFICATIONS ════════════════════ -->
+    <section id="page-notifications" class="page">
+      <div class="page-header">
+        <div class="page-title">Notifications 🔔</div>
+        <div class="page-subtitle">You have 7 unread notifications</div>
+      </div>
+      <div class="card notif-card" aria-live="polite">
+        <div class="notif-item notif-unread">
+          <div class="notif-icon" aria-hidden="true">🎉</div>
+          <div class="notif-body">
+            <div class="notif-text"><strong>Code Storm 2025</strong> registration is closing in 2 days. Don't miss out!</div>
+            <div class="notif-meta">Event · 1 hour ago</div>
+          </div>
+          <span class="notif-dot-indicator" aria-label="Unread"></span>
+        </div>
+        <div class="notif-item notif-unread">
+          <div class="notif-icon" aria-hidden="true">💬</div>
+          <div class="notif-body">
+            <div class="notif-text"><strong>Rahul Kumar</strong> replied to your message: "Can you send the DS notes?"</div>
+            <div class="notif-meta">Message · 2 hours ago</div>
+          </div>
+          <span class="notif-dot-indicator" aria-label="Unread"></span>
+        </div>
+        <div class="notif-item notif-unread">
+          <div class="notif-icon" aria-hidden="true">❤️</div>
+          <div class="notif-body">
+            <div class="notif-text"><strong>24 students</strong> liked Rahul Kumar's study group post you commented on</div>
+            <div class="notif-meta">Feed · 3 hours ago</div>
+          </div>
+          <span class="notif-dot-indicator" aria-label="Unread"></span>
+        </div>
+        <div class="notif-item">
+          <div class="notif-icon" aria-hidden="true">📚</div>
+          <div class="notif-body">
+            <div class="notif-text">DSA Assignment 3 due <strong>tomorrow at 11:59 PM</strong>. Don't forget to submit!</div>
+            <div class="notif-meta">Academic · 5 hours ago</div>
+          </div>
+        </div>
+        <div class="notif-item">
+          <div class="notif-icon" aria-hidden="true">🔑</div>
+          <div class="notif-body">
+            <div class="notif-text"><strong>Rahul M.</strong> found keys in the Library and posted in Lost &amp; Found</div>
+            <div class="notif-meta">Lost &amp; Found · 8 hours ago</div>
+          </div>
+        </div>
+        <div class="notif-item">
+          <div class="notif-icon" aria-hidden="true">👥</div>
+          <div class="notif-body">
+            <div class="notif-text"><strong>3 new members</strong> joined your DSA Doubt Busters study group</div>
+            <div class="notif-meta">Groups · Yesterday</div>
+          </div>
+        </div>
+        <div class="notif-item notif-last">
+          <div class="notif-icon" aria-hidden="true">🎓</div>
+          <div class="notif-body">
+            <div class="notif-text"><strong>Prof. Verma</strong> uploaded new study materials for Operating Systems</div>
+            <div class="notif-meta">Academic · 2 days ago</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════ PROFILE ════════════════════ -->
+    <section id="page-profile" class="page">
+      <div class="page-header">
+        <div class="page-title">My Profile 👤</div>
+      </div>
+      <div class="profile-grid">
+        <div class="profile-left-col">
+          <div class="card profile-card-center">
+            <div class="profile-avatar-lg" aria-hidden="true">AK</div>
+            <div class="profile-name" id="profile-name-display">Arjun Kumar</div>
+            <div class="profile-sub">CSE · 3rd semester · Section 3CSE08</div>
+            <div class="profile-tags mb-16"><span class="tag" id="roll-display">Roll No: 21CS045</span></div>
+            <button class="btn btn-secondary btn-sm btn-full" data-open-modal="modal-edit-profile" aria-label="Edit your profile">Edit Profile</button>
+          </div>
+          <div class="card">
+            <div class="card-title">Quick Stats</div>
+            <div class="quick-stats">
+              <div class="quick-stat-row"><span class="quick-stat-label">CGPA</span><strong>8.4</strong></div>
+              <div class="quick-stat-row"><span class="quick-stat-label">Attendance</span><strong style="color:var(--accent3)">84%</strong></div>
+              <div class="quick-stat-row"><span class="quick-stat-label">Study Groups</span><strong>2</strong></div>
+              <div class="quick-stat-row"><span class="quick-stat-label">Posts</span><strong>18</strong></div>
+              <div class="quick-stat-row"><span class="quick-stat-label">Events Attended</span><strong>7</strong></div>
+            </div>
+          </div>
+        </div>
+        <div class="profile-right-col">
+          <div class="card">
+            <div class="card-header-row mb-12">
+              <div class="card-title-inline">About</div>
+              <button class="btn btn-ghost btn-sm" onclick="editAbout()" aria-label="Edit bio" style="font-size:12px;padding:4px 10px;">✏️ Edit</button>
+            </div>
+            <div class="profile-about" id="profile-about-text">
+              CSE enthusiast passionate about algorithms, competitive programming, and building cool things. Currently exploring ML and deep learning. Love playing chess and table tennis during breaks.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header-row mb-12">
+              <div class="card-title-inline">Skills &amp; Interests</div>
+              <button class="btn btn-ghost btn-sm" onclick="openModal('modal-edit-skills')" aria-label="Edit skills" style="font-size:12px;padding:4px 10px;">✏️ Edit</button>
+            </div>
+            <div class="flex-gap-10 flex-wrap" id="skills-tags">
+              <span class="tag">C++</span><span class="tag">Python</span><span class="tag">Java</span><span class="tag purple">Machine Learning</span><span class="tag green">Competitive Programming</span><span class="tag orange">Chess</span><span class="tag pink">Table Tennis</span><span class="tag">Data Structures</span><span class="tag purple">Web Dev</span>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header-row mb-12">
+              <div class="card-title-inline">Achievements 🏆</div>
+              <button class="btn btn-ghost btn-sm" onclick="openModal('modal-add-achievement')" aria-label="Add achievement" style="font-size:12px;padding:4px 10px;">+ Add</button>
+            </div>
+            <div class="achievement-list" id="achievement-list">
+              <div class="achievement-item">
+                <div class="achievement-icon" aria-hidden="true">🥇</div>
+                <div style="flex:1"><div class="achievement-name">1st Place – Intra-college Coding Contest</div><div class="achievement-date">Oct 2025</div></div>
+                <button class="btn btn-ghost btn-sm" onclick="deleteAchievement(this)" aria-label="Remove achievement" style="font-size:11px;padding:3px 7px;opacity:0.5;">✕</button>
+              </div>
+              <div class="achievement-item">
+                <div class="achievement-icon" aria-hidden="true">🎓</div>
+                <div style="flex:1"><div class="achievement-name">Merit Scholarship – Academic Excellence</div><div class="achievement-date">2024–25</div></div>
+                <button class="btn btn-ghost btn-sm" onclick="deleteAchievement(this)" aria-label="Remove achievement" style="font-size:11px;padding:3px 7px;opacity:0.5;">✕</button>
+              </div>
+              <div class="achievement-item">
+                <div class="achievement-icon" aria-hidden="true">🤝</div>
+                <div style="flex:1"><div class="achievement-name">Volunteer Lead – TechFest 2024</div><div class="achievement-date">Nov 2024</div></div>
+                <button class="btn btn-ghost btn-sm" onclick="deleteAchievement(this)" aria-label="Remove achievement" style="font-size:11px;padding:3px 7px;opacity:0.5;">✕</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════════════════ STUDY TIMER ════════════════════ -->
+    <section id="page-studytimer" class="page">
+      <div class="page-header">
+        <div class="page-title">Study Timer ⏱️</div>
+        <div class="page-subtitle">Stay focused with Pomodoro sessions</div>
+      </div>
+
+      <div class="timer-layout">
+        <!-- Main Timer Card -->
+        <div class="card timer-main-card">
+          <div class="timer-mode-tabs">
+            <button class="timer-mode-btn active" data-mode="25" onclick="setTimerMode(this,25,'Pomodoro')">🍅 Pomodoro</button>
+            <button class="timer-mode-btn" data-mode="5" onclick="setTimerMode(this,5,'Short Break')">☕ Short Break</button>
+            <button class="timer-mode-btn" data-mode="15" onclick="setTimerMode(this,15,'Long Break')">🛌 Long Break</button>
+          </div>
+
+          <div class="timer-subject-row">
+            <label class="form-label" style="margin:0;font-size:13px;color:var(--text-muted)">Studying:</label>
+            <select id="timer-subject" class="form-select" title="Select study subject" aria-label="Select study subject" style="width:auto;flex:1;padding:6px 10px;font-size:13px;">
+              <option>Data Structures &amp; Algorithms</option>
+              <option>Digital Electronics</option>
+              <option>Probability &amp; Statistics</option>
+              <option>Operating Systems</option>
+              <option>Computer Networks</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="timer-circle-wrap">
+            <svg class="timer-ring" viewBox="0 0 220 220" aria-hidden="true">
+              <defs>
+                <linearGradient id="timerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#63b3ed"/>
+                  <stop offset="100%" stop-color="#9f7aea"/>
+                </linearGradient>
+              </defs>
+              <circle class="timer-ring-bg" cx="110" cy="110" r="96"/>
+              <circle class="timer-ring-progress" id="timer-ring-progress" cx="110" cy="110" r="96"
+                stroke-dasharray="603" stroke-dashoffset="0"/>
+            </svg>
+            <div class="timer-display">
+              <div class="timer-time" id="timer-display">25:00</div>
+              <div class="timer-label" id="timer-label">Pomodoro</div>
+            </div>
+          </div>
+
+          <div class="timer-controls">
+            <button class="btn btn-secondary btn-sm" onclick="resetTimer()" aria-label="Reset timer">↺ Reset</button>
+            <button class="btn btn-primary timer-start-btn" id="timer-start-btn" onclick="toggleTimer()" aria-label="Start timer">▶ Start</button>
+            <button class="btn btn-secondary btn-sm" onclick="skipTimer()" aria-label="Skip session">⏭ Skip</button>
+          </div>
+
+          <div class="timer-session-row">
+            <span class="text-muted-sm">Session</span>
+            <div class="timer-dots" id="timer-dots">
+              <span class="timer-dot active"></span>
+              <span class="timer-dot"></span>
+              <span class="timer-dot"></span>
+              <span class="timer-dot"></span>
+            </div>
+            <span class="text-muted-sm" id="session-count">1 / 4</span>
+          </div>
+        </div>
+
+        <!-- Stats & Log -->
+        <div class="timer-right-col">
+          <div class="card">
+            <div class="card-title">Today's Stats</div>
+            <div class="quick-stats">
+              <div class="quick-stat-row"><span class="quick-stat-label">Sessions Done</span><strong id="stat-sessions">0</strong></div>
+              <div class="quick-stat-row"><span class="quick-stat-label">Focus Time</span><strong id="stat-focus">0 min</strong></div>
+              <div class="quick-stat-row"><span class="quick-stat-label">Breaks Taken</span><strong id="stat-breaks">0</strong></div>
+              <div class="quick-stat-row"><span class="quick-stat-label">Streak 🔥</span><strong id="stat-streak">0 days</strong></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header-row mb-12">
+              <div class="card-title-inline">Session Log</div>
+              <button class="btn btn-ghost btn-sm" onclick="clearSessionLog()" style="font-size:11px;padding:3px 8px;opacity:0.6;">Clear</button>
+            </div>
+            <div id="session-log" style="max-height:260px;overflow-y:auto;">
+              <div class="timer-log-empty" id="log-empty">No sessions yet. Start your first Pomodoro! 🍅</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Tips 💡</div>
+            <div id="focus-tip" class="text-muted-sm" style="line-height:1.6;">
+              During a Pomodoro, put your phone face-down and close unneeded tabs. Full focus for just 25 minutes beats 2 hours of distracted studying.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── AI STUDY ASSISTANT PAGE ── -->
+    <section id="page-ai-assistant" class="page">
+      <div class="page-header">
+        <div class="page-title">🤖 AI Study Assistant</div>
+        <div class="page-subtitle">Ask anything — doubts, concepts, exam prep, explanations</div>
+      </div>
+      <div style="display:flex;flex-direction:column;height:calc(100vh - 200px);max-width:760px;margin:0 auto;">
+        <div id="ai-messages" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:16px 0 8px;"></div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:12px 16px;display:flex;gap:10px;align-items:flex-end;margin-top:8px;">
+          <textarea id="ai-input" class="form-textarea" placeholder="Ask a doubt, request a summary, explain a concept…" rows="2" style="flex:1;resize:none;border:none;background:transparent;margin:0;padding:4px 0;" aria-label="Ask AI Study Assistant"></textarea>
+          <button id="ai-send-btn" class="btn btn-primary" onclick="sendAIMessage()" style="padding:10px 20px;flex-shrink:0;">Send ➤</button>
+        </div>
+        <div style="text-align:center;margin-top:8px;font-size:11px;color:var(--text3);">Powered by Claude AI · Ask about any subject, concept, or exam topic · <span style="cursor:pointer;text-decoration:underline;" onclick="localStorage.removeItem('cc_ai_key');showToast('API key cleared. Refresh page to re-enter.')">Reset API Key</span></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ════ MODALS ════ -->
+
+<!-- New Post Modal -->
+<div class="modal-overlay" id="modal-post" role="dialog" aria-modal="true" aria-labelledby="modal-post-title">
+  <div class="modal">
+    <button class="modal-close" aria-label="Close dialog">✕</button>
+    <div class="modal-title" id="modal-post-title">Create a Post ✍️</div>
+    <form id="new-post-form">
+      <div class="form-group">
+        <label class="form-label" for="new-post-text">Share something</label>
+        <textarea id="new-post-text" class="form-textarea" title="New post content" placeholder="What's on your mind? Ask a doubt, share notes, announce something…" rows="4" aria-label="New post content"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="post-audience">Audience</label>
+        <select id="post-audience" class="form-select" title="Select audience" aria-label="Select audience">
+          <option>All Students</option>
+          <option>CSE Department</option>
+          <option>5th Semester</option>
+          <option>My Study Groups</option>
+        </select>
+      </div>
+      <div class="flex-gap-10 flex-wrap mb-16">
+        <span class="tag" role="button" tabindex="0">📸 Add Photo</span>
+        <span class="tag orange" role="button" tabindex="0">📎 Attach File</span>
+        <span class="tag green" role="button" tabindex="0">📍 Add Location</span>
+      </div>
+      <button type="submit" class="btn btn-primary btn-full">Post to Campus</button>
+    </form>
+  </div>
+</div>
+
+<!-- Edit Profile Modal -->
+<div class="modal-overlay" id="modal-edit-profile" role="dialog" aria-modal="true" aria-labelledby="modal-edit-profile-title">
+  <div class="modal">
+    <button class="modal-close" aria-label="Close dialog">✕</button>
+    <div class="modal-title" id="modal-edit-profile-title">Edit Profile ✏️</div>
+    <form id="edit-profile-form">
+      <div class="form-group">
+        <label class="form-label" for="edit-name">Full Name</label>
+        <input type="text" id="edit-name" class="form-input" title="Your full name" placeholder="Enter your full name" aria-label="Your full name" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="edit-rollno">Roll Number</label>
+        <input type="text" id="edit-rollno" class="form-input" title="Your roll number" placeholder="Enter your roll number" aria-label="Your roll number" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="edit-bio">Bio (Optional)</label>
+        <textarea id="edit-bio" class="form-textarea" title="Your bio" placeholder="Tell us about yourself..." aria-label="Your bio" rows="3"></textarea>
+      </div>
+      <div class="flex-gap-10">
+        <button type="submit" class="btn btn-primary btn-full">Save Changes</button>
+        <button type="button" class="btn btn-secondary btn-full" onclick="closeModal('modal-edit-profile')">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Create Event Modal -->
+<div class="modal-overlay" id="modal-event" role="dialog" aria-modal="true" aria-labelledby="modal-event-title">
+  <div class="modal">
+    <button class="modal-close" aria-label="Close dialog">✕</button>
+    <div class="modal-title" id="modal-event-title">Create Event 🎉</div>
+    <div class="form-group">
+      <label class="form-label" for="event-name">Event Name</label>
+      <input type="text" id="event-name" class="form-input" title="Event name" placeholder="e.g. Workshop on Deep Learning" aria-label="Event name"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="event-datetime">Date &amp; Time</label>
+      <input type="datetime-local" id="event-datetime" class="form-input" title="Event date and time" aria-label="Event date and time"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="event-venue">Venue</label>
+      <input type="text" id="event-venue" class="form-input" title="Event venue" placeholder="e.g. Seminar Hall 1" aria-label="Event venue"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="event-category">Category</label>
+      <select id="event-category" class="form-select" title="Event category" aria-label="Event category">
+        <option>Tech</option><option>Cultural</option><option>Sports</option><option>Career</option><option>Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="event-desc">Description</label>
+      <textarea id="event-desc" class="form-textarea" title="Event description" placeholder="Describe your event…" aria-label="Event description"></textarea>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="createEvent()">Create Event</button>
+  </div>
+</div>
+
+<!-- Create Group Modal -->
+<div class="modal-overlay" id="modal-group" role="dialog" aria-modal="true" aria-labelledby="modal-group-title">
+  <div class="modal">
+    <button class="modal-close" aria-label="Close dialog">✕</button>
+    <div class="modal-title" id="modal-group-title">Create Study Group 👥</div>
+    <div class="form-group">
+      <label class="form-label" for="group-name">Group Name</label>
+      <input type="text" id="group-name" class="form-input" title="Group name" placeholder="e.g. OS Exam Prep" aria-label="Group name"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="group-subject">Subject</label>
+      <input type="text" id="group-subject" class="form-input" title="Subject" placeholder="e.g. Operating Systems" aria-label="Subject"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="group-desc">Description</label>
+      <textarea id="group-desc" class="form-textarea" title="Group description" placeholder="What will your group focus on?" aria-label="Group description"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="group-max">Max Members</label>
+      <input type="number" id="group-max" class="form-input" title="Maximum number of members" value="15" min="2" max="50" aria-label="Maximum number of members"/>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="createGroup()">Create Group</button>
+  </div>
+</div>
+
+<!-- Sell Item Modal -->
+<div class="modal-overlay" id="modal-sell" role="dialog" aria-modal="true" aria-labelledby="modal-sell-title">
+  <div class="modal">
+    <button class="modal-close" aria-label="Close dialog">✕</button>
+    <div class="modal-title" id="modal-sell-title">List an Item 🛍️</div>
+    <div class="form-group">
+      <label class="form-label" for="sell-name">Item Name</label>
+      <input type="text" id="sell-name" class="form-input" title="Item name" placeholder="What are you selling?" aria-label="Item name"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="sell-price">Price (₹)</label>
+      <input type="number" id="sell-price" class="form-input" title="Item price in rupees" placeholder="0" aria-label="Price in rupees"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="sell-category">Category</label>
+      <select id="sell-category" class="form-select" title="Item category" aria-label="Item category">
+        <option>Books</option><option>Electronics</option><option>Clothing</option><option>Sports</option><option>Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="sell-condition">Condition</label>
+      <select id="sell-condition" class="form-select" title="Item condition" aria-label="Item condition">
+        <option>Like New</option><option>Good</option><option>Fair</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="sell-desc">Description</label>
+      <textarea id="sell-desc" class="form-textarea" title="Item description" placeholder="Describe your item…" aria-label="Item description"></textarea>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="closeModal('modal-sell');showToast('Item listed on marketplace! 🛍️')">List Item</button>
+  </div>
+</div>
+
+<!-- Lost & Found Report Modal -->
+<div class="modal-overlay" id="modal-lf" role="dialog" aria-modal="true" aria-labelledby="modal-lf-title">
+  <div class="modal">
+    <button class="modal-close" aria-label="Close dialog">✕</button>
+    <div class="modal-title" id="modal-lf-title">Report Lost / Found 🔎</div>
+    <div class="form-group">
+      <label class="form-label" for="lf-type">Type</label>
+      <select id="lf-type" class="form-select" title="Report type" aria-label="Report type: lost or found">
+        <option>I Lost Something</option><option>I Found Something</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="lf-item">Item Description</label>
+      <input type="text" id="lf-item" class="form-input" title="Item description" placeholder="e.g. Black wallet with blue strap" aria-label="Item description"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="lf-location">Location</label>
+      <input type="text" id="lf-location" class="form-input" title="Location where item was lost or found" placeholder="e.g. Near canteen, Library reading room" aria-label="Location"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="lf-date">Date</label>
+      <input type="date" id="lf-date" class="form-input" title="Date item was lost or found" aria-label="Date item was lost or found"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="lf-details">Additional Details</label>
+      <textarea id="lf-details" class="form-textarea" title="Additional details" placeholder="Any unique identifiers, color, brand…" aria-label="Additional details about the item"></textarea>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="closeModal('modal-lf');showToast('Item reported! Campus will help you 🙏')">Submit Report</button>
+  </div>
+</div>
+
+<!-- Edit Item Modal (reusable) -->
+<div class="modal-overlay" id="modal-edit-item" role="dialog" aria-modal="true" aria-labelledby="modal-edit-item-title">
+  <div class="modal">
+    <button class="modal-close" aria-label="Close dialog">✕</button>
+    <div class="modal-title" id="modal-edit-item-title">Edit Item ✏️</div>
+    <div id="edit-item-form-body"></div>
+    <div class="flex-gap-10 mt-16">
+      <button class="btn btn-primary btn-full" id="edit-item-save-btn">Save Changes</button>
+      <button class="btn btn-secondary btn-full" onclick="closeModal('modal-edit-item')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Assignment Modal -->
+<div class="modal-overlay" id="modal-add-assignment" role="dialog" aria-modal="true" aria-labelledby="modal-add-assignment-title">
+  <div class="modal">
+    <button class="modal-close" aria-label="Close dialog">✕</button>
+    <div class="modal-title" id="modal-add-assignment-title">Add Assignment 📝</div>
+    <div class="form-group">
+      <label class="form-label" for="aa-name">Assignment Name</label>
+      <input type="text" id="aa-name" class="form-input" placeholder="e.g. ML Assignment 2 – Neural Nets" />
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="aa-due">Due Date</label>
+      <input type="text" id="aa-due" class="form-input" placeholder="e.g. Nov 25, 11:59 PM" />
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="aa-subject">Subject Icon</label>
+      <select id="aa-icon" class="form-select">
+        <option value="📝">📝 General</option>
+        <option value="🔬">🔬 Lab</option>
+        <option value="📊">📊 Stats / Data</option>
+        <option value="🖥️">🖥️ CS / OS</option>
+        <option value="📐">📐 Maths</option>
+        <option value="🧪">🧪 Chemistry</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="aa-status">Status</label>
+      <select id="aa-status" class="form-select">
+        <option value="Pending">Pending</option>
+        <option value="In Progress">In Progress</option>
+      </select>
+    </div>
+    <div class="flex-gap-10 mt-16">
+      <button class="btn btn-primary btn-full" id="aa-save-btn" onclick="addAssignment()">Add Assignment</button>
+      <button class="btn btn-secondary btn-full" onclick="closeModal('modal-add-assignment')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Assignment Modal -->
+
+
+<!-- Edit Assignment Modal -->
+<div class="modal-overlay" id="modal-edit-assignment" role="dialog" aria-modal="true" aria-labelledby="modal-edit-assignment-title">
+  <div class="modal">
+    <button class="modal-close" aria-label="Close dialog">✕</button>
+    <div class="modal-title" id="modal-edit-assignment-title">Edit Assignment ✏️</div>
+    <div class="form-group">
+      <label class="form-label" for="ea-name">Assignment Name</label>
+      <input type="text" id="ea-name" class="form-input" placeholder="Assignment name" />
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="ea-due">Due Date / Note</label>
+      <input type="text" id="ea-due" class="form-input" placeholder="e.g. Due: Nov 20, 11:59 PM" />
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="ea-status">Status</label>
+      <select id="ea-status" class="form-select">
+        <option value="Pending">Pending</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Submitted">Submitted</option>
+        <option value="Graded">Graded</option>
+      </select>
+    </div>
+    <div class="flex-gap-10">
+      <button class="btn btn-primary btn-full" onclick="saveAssignmentEdit()">Save Changes</button>
+      <button class="btn btn-secondary btn-full" onclick="closeModal('modal-edit-assignment')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Edit About Modal -->
+<div class="modal-overlay" id="modal-edit-about" role="dialog" aria-modal="true" aria-labelledby="modal-edit-about-title">
+  <div class="modal">
+    <button class="modal-close" aria-label="Close dialog">✕</button>
+    <div class="modal-title" id="modal-edit-about-title">Edit About ✏️</div>
+    <div class="form-group">
+      <label class="form-label" for="edit-about-text">About Me</label>
+      <textarea id="edit-about-text" class="form-textarea" rows="5" placeholder="Tell your campus about yourself..."></textarea>
+    </div>
+    <div class="flex-gap-10">
+      <button class="btn btn-primary btn-full" onclick="saveAbout()">Save Changes</button>
+      <button class="btn btn-secondary btn-full" onclick="closeModal('modal-edit-about')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Skills Modal -->
+<div class="modal-overlay" id="modal-edit-skills" role="dialog" aria-modal="true" aria-labelledby="modal-edit-skills-title">
+  <div class="modal">
+    <button class="modal-close" aria-label="Close dialog">✕</button>
+    <div class="modal-title" id="modal-edit-skills-title">Edit Skills &amp; Interests ✏️</div>
+    <div class="form-group">
+      <label class="form-label" for="skills-input">Skills (comma-separated)</label>
+      <textarea id="skills-input" class="form-textarea" rows="4" placeholder="e.g. C++, Python, Chess, Machine Learning"></textarea>
+    </div>
+    <div class="form-group">
+      <div class="text-muted-sm">Current skills shown as tags. Edit the list above and save to update.</div>
+    </div>
+    <div class="flex-gap-10">
+      <button class="btn btn-primary btn-full" onclick="saveSkills()">Save Changes</button>
+      <button class="btn btn-secondary btn-full" onclick="closeModal('modal-edit-skills')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Achievement Modal -->
+<div class="modal-overlay" id="modal-add-achievement" role="dialog" aria-modal="true" aria-labelledby="modal-add-achievement-title">
+  <div class="modal">
+    <button class="modal-close" aria-label="Close dialog">✕</button>
+    <div class="modal-title" id="modal-add-achievement-title">Add Achievement 🏆</div>
+    <div class="form-group">
+      <label class="form-label" for="ach-icon">Icon</label>
+      <select id="ach-icon" class="form-select">
+        <option value="🏆">🏆 Trophy</option>
+        <option value="🥇">🥇 Gold Medal</option>
+        <option value="🎓">🎓 Academic</option>
+        <option value="🤝">🤝 Leadership</option>
+        <option value="⭐">⭐ Star</option>
+        <option value="🎯">🎯 Achievement</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="ach-name">Achievement</label>
+      <input type="text" id="ach-name" class="form-input" placeholder="e.g. 2nd Place – Hackathon 2025" />
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="ach-date">Date</label>
+      <input type="text" id="ach-date" class="form-input" placeholder="e.g. Nov 2025" />
+    </div>
+    <div class="flex-gap-10">
+      <button class="btn btn-primary btn-full" onclick="addAchievement()">Add Achievement</button>
+      <button class="btn btn-secondary btn-full" onclick="closeModal('modal-add-achievement')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Timetable Cell Modal -->
+<div class="modal-overlay" id="modal-edit-cell" role="dialog" aria-modal="true" aria-labelledby="modal-edit-cell-title">
+  <div class="modal">
+    <button class="modal-close" aria-label="Close dialog">✕</button>
+    <div class="modal-title" id="modal-edit-cell-title">Edit Class ✏️</div>
+    <div class="form-group">
+      <label class="form-label" for="cell-subject">Subject</label>
+      <input type="text" id="cell-subject" class="form-input" placeholder="e.g. Data Structures" />
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="cell-room">Room</label>
+      <input type="text" id="cell-room" class="form-input" placeholder="e.g. Room 201" />
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="cell-color">Color</label>
+      <select id="cell-color" class="form-select">
+        <option value="class-blue">💙 Blue</option>
+        <option value="class-green">💚 Green</option>
+        <option value="class-orange">🟠 Orange</option>
+        <option value="class-purple">🟣 Purple</option>
+        <option value="class-pink">🩷 Pink</option>
+      </select>
+    </div>
+    <div class="flex-gap-10">
+      <button class="btn btn-primary btn-full" onclick="saveCellEdit()">Save Changes</button>
+      <button class="btn btn-secondary btn-full" onclick="closeModal('modal-edit-cell')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
